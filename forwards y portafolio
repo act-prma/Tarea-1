@@ -20,11 +20,11 @@ source(con)
 close(con)
 #---------------
 
-#utilizamos la funcion de interpolaciÛn dada por el profesor
+#utilizamos la funcion de interpolaci√≥n dada por el profesor
 
-#FUNCI”N DE INTERPOLACI”N ALAMBRADA
+#FUNCI√ìN DE INTERPOLACI√ìN ALAMBRADA
 
-talamb=function(nodos,curva,plazos) #funciÛn de interpolaciÛn de tasas por el mÈtodo alamabrada
+talamb=function(nodos,curva,plazos) #funci√≥n de interpolaci√≥n de tasas por el m√©todo alamabrada
 {
   n=max(ncol(plazos),1)
   m=max(ncol(nodos),1)
@@ -101,7 +101,7 @@ wcvar <- function(v,w=rep(1,length(v)),p=.5)
 fval=as.Date("20200228",format="%Y%m%d") #Fecha de valoracion
 itpl=0 #Usaremos la interpolacion lineal por eso ponemos el cero
 alpha=0.98 #Nivel de confianza para obtener estimaciones de riesgo
-nh=3660 #n˙mero de dÌas de historia
+nh=3660 #n√∫mero de d√≠as de historia
 yext=1 #si se usa la historia de internet o fija
 #setwd(direc)	
 
@@ -115,18 +115,18 @@ btsp=read.table("C:/Users/tonaj/Desktop/2020-2/ADMI RIESGO FINANCIERO/tarea1/tas
 ##---cambiar directorio **********ojo aqui
 
 
-SymbolsFX_ftdc<-c("USDMXN=X", "GBPUSD=X" ) #tienen que ir en orden alfabÈtico
+SymbolsFX_ftdc<-c("USDMXN=X", "GBPUSD=X" ) #tienen que ir en orden alfab√©tico
 plazos_fwd=cbind( 5)
 contratos_fwd=cbind(100)
 kst_fwd=cbind(19.83)
 nominal_fwd=1 
-yext=1 #si se carga informaciÛn de yahoo en la fecha definida por fval o SymbolsFX, en caso contrario se utiliza informaciÛn que se tendr· que cargar de tasas_spot.txt
+yext=1 #si se carga informaci√≥n de yahoo en la fecha definida por fval o SymbolsFX, en caso contrario se utiliza informaci√≥n que se tendr√° que cargar de tasas_spot.txt
 trlib=1 #1 si la curva libor viene a 182 0 si no
 
 #FORWARDS DE IPC
 #Descontamos con gubernamental
 base=read.table("C:/Users/tonaj/Desktop/2020-2/ADMI RIESGO FINANCIERO/tarea1/tasa_guber.txt")
-SymbolsEQ_find<-c("^MXX", "GCARSOA1.MX" ) #tienen que ir en orden alfabÈtico
+SymbolsEQ_find<-c("^MXX", "GCARSOA1.MX" ) #tienen que ir en orden alfab√©tico
 plazos_fwd_ind=cbind( 53)#plazo
 contratos_fwd_ind=cbind(50)#numero de
 kst_fwd_ind=cbind(-49525)
@@ -154,7 +154,7 @@ n=min(n1,n2)-1
 ###NODOS###
 nodos1_ftdc=data.frame(data1[1,2:m1_ftdc])
 nodos2_ftdc=data.frame(data2[1,2:m2_ftdc])
-####MATRICES DEL MISMO TAMA—O MENOS DOLAR
+####MATRICES DEL MISMO TAMA√ëO MENOS DOLAR
 
 x1_ftdc=as.data.table(mutate(data1[2:n,1:m1_ftdc],Date=as.Date(V1,format="%Y%m%d")))
 x1_ftdc=x1_ftdc%>%select(-V1)
@@ -183,10 +183,10 @@ print(head(X3_find))
 
 if (yext==1)
 {
-  #Cargar los sÌmbolos de yahoo finance para FX
+  #Cargar los s√≠mbolos de yahoo finance para FX
   start_date=fval-3660 #fecha inicial
   
-  #CreaciÛn del objeto para guardar los datos
+  #Creaci√≥n del objeto para guardar los datos
   dataEnvFX<-new.env()
   
   #obtener los datos
@@ -220,10 +220,10 @@ x_orig_gov=as.data.table(mutate(data[2:n,1:m_gov],Date=as.Date(V1,format="%Y%m%d
 x_orig_gov=x_orig_gov%>%select(-V1)
 nodos_gov=data.frame(data[1,2:m_gov])
 
-#Cargar los sÌmbolos de yahoo finance para EQ
+#Cargar los s√≠mbolos de yahoo finance para EQ
 start_date=fval-nh #fecha inicial
 
-#CreaciÛn del objeto para guardar los datos
+#Creaci√≥n del objeto para guardar los datos
 dataEnvEQ<-new.env()
 
 #obtener los datos
@@ -237,7 +237,7 @@ bt.prep(dataEnvEQ,align='remove.na',fill.gaps=T)
 #Nos quedamos con los precios
 X3_find=data.table(Date=as.Date(index(dataEnvEQ$prices[,2])),coredata(dataEnvEQ$prices[,2]))
 
-#INTERSECCI”N DE FECHAS DE TODOS LOS INSUMOS    
+#INTERSECCI√ìN DE FECHAS DE TODOS LOS INSUMOS    
 
 #head(x_orig_gov)  
 lin_gub=data.table(Date=as.Date(X3_ftdc[x_orig_gov,on=.(Date),nomatch=0]$Date)) #Fechas acciones, equity y guber
@@ -267,7 +267,7 @@ X3_find=X3_find%>%select(-Date)
 
 
 #---------
-#FORWARDS Y/O FUTUROS DE TIPO DE CAMBIO C¡LCULO
+#FORWARDS Y/O FUTUROS DE TIPO DE CAMBIO C√ÅLCULO
 
 ################MATRICES DE INTERPOLACION LINEAL ####################
 
@@ -279,7 +279,7 @@ for (j in 1:n)
 {
   X1_fwtdc[j,]=if(itpl==0){approx(nodos1_ftdc,x1_ftdc[j,],plazos_fwd,rule=2)$y}else{talamb(nodos1_ftdc,x1_ftdc[j,],plazos_fwd)}
   X2_fwtdc[j,]=if(itpl==0){approx(nodos2_ftdc,x2_ftdc[j,],plazos_fwd,rule=2)$y}else{talamb(nodos2_ftdc,x2_ftdc[j,],plazos_fwd)}
-  if(trlib==1){X1_fwtdc[j,]=((1+X1_fwtdc[j,])^(plazos_fwd/180)-1)*360/plazos_fwd} #transformaciÛn de act 180 a 360
+  if(trlib==1){X1_fwtdc[j,]=((1+X1_fwtdc[j,])^(plazos_fwd/180)-1)*360/plazos_fwd} #transformaci√≥n de act 180 a 360
 }
 
 
@@ -295,7 +295,7 @@ X_futtdc=cbind(X1_fwtdc,X2_fwtdc,X3_ftdc)
 V0_fwtdc=futuroTC(plazos_fwd,X1_fwtdc[1,],X2_fwtdc[1,],X3_ftdc[1,],kst_fwd)*contratos_fwd*nominal_fwd
 
 
-#FORWARDS Y/O FUTUROS DE ÕNDICES C¡LCULO
+#FORWARDS Y/O FUTUROS DE √çNDICES C√ÅLCULO
 
 ################MATRICES DE INTERPOLACION LINEAL ####################
 
@@ -307,7 +307,7 @@ for (j in 1:n)
 {
   #X1_fwind[j,]=if(itpl==0){approx(nodos1_,x1_ftdc[j,],plazos_fwd)$y}else{talamb(nodos1_ftdc,x1_ftdc[j,],plazos_fwd)}
   X2_fwind[j,]=if(itpl==0){approx(nodos_gov,x_orig_gov[j,],plazos_fwd_ind,rule=2)$y}else{talamb(nodos_gov,x_orig_gov[j,],plazos_fwd_ind)}
-  #if(trlib==1){X1_fwtdc[j,]=((1+X1_fwtdc[j,])^(plazos_fwd/180)-1)*360/plazos_fwd} #transformaciÛn de act 180 a 360
+  #if(trlib==1){X1_fwtdc[j,]=((1+X1_fwtdc[j,])^(plazos_fwd/180)-1)*360/plazos_fwd} #transformaci√≥n de act 180 a 360
 }
 
 X3_find=as.matrix(X3_find)
@@ -329,32 +329,32 @@ V0T_port=sum(V0_port)
 
 
 
-#INTEGRACI”N DE TODOS LOS FACTORES DE RIESGO EN UNA MATRIZ
+#INTEGRACI√ìN DE TODOS LOS FACTORES DE RIESGO EN UNA MATRIZ
 X_port=cbind(X_futtdc,X_futind) #Factores de riesgo del portafolios de 8(9) instrumentos financieros
 
-#C·lculo de variaciones Delta_X DEL PORTAFOLIOS
+#C√°lculo de variaciones Delta_X DEL PORTAFOLIOS
 DeltaX_port=as.matrix(log(X_port[1:(n-1),]/X_port[2:(n),]))
 DeltaX_port[is.nan(DeltaX_port)] <- 0 #quitamos NaN
 DeltaX_port[is.na(DeltaX_port)] <- 0 #quitamos Na
 DeltaX_port[is.infinite(DeltaX_port)] <- 0 #quitamos Na
 
 
-Ns=nrow(DeltaX_port) #Definimos n˙mero de simulaciones
+Ns=nrow(DeltaX_port) #Definimos n√∫mero de simulaciones
 alpha=0.98 #Nivel de Confianza para las medidas de riesgo
 
 DeltaX_s=DeltaX_port
 #print(head(DeltaX_s))
 
 
-#C·lculo de matriz de pÈrdidas y ganancias FUTUROS TDC
-#dimensiÛn
+#C√°lculo de matriz de p√©rdidas y ganancias FUTUROS TDC
+#dimensi√≥n
 m=ncol(plazos_fwd)  #PASO CLAVE
 X_s_fwtdc=matrix(0,Ns,n_if[1]) #Factores de riesgo simulados con base en DeltaX_s x0*(1+Delta_Xs) #PASO CLAVE
 V_fwtdc=matrix(0,Ns,m)
 Vfr1_fwtdc=matrix(0,Ns,m)
 Vfr2_fwtdc=matrix(0,Ns,m)
 Vfr3_fwtdc=matrix(0,Ns,m)
-PG_fwtdc=matrix(0,Ns,m) #PËrdidas y ganancias
+PG_fwtdc=matrix(0,Ns,m) #P√®rdidas y ganancias
 PGfr1_fwtdc=matrix(0,Ns,m)
 PGfr2_fwtdc=matrix(0,Ns,m)
 PGfr3_fwtdc=matrix(0,Ns,m)
@@ -394,7 +394,7 @@ PGfr2_fwtdc[1:5,]
 PGT_fwtdc[1:5,]
 
 
-#VaR por posiciÛn
+#VaR por posici√≥n
 VaRCont_fwtdc=matrix(0,1,m)#contrato
 VaRfr1_fwtdc=matrix(0,1,m)#var factor riesgo 1
 VaRfr2_fwtdc=matrix(0,1,m)#var factor riesgo 2
@@ -445,7 +445,7 @@ cbind(CVaRTotal_fwtdc,CVaRTotalfr1_fwtdc,CVaRTotalfr2_fwtdc,CVaRTotalfr3_fwtdc)
 
 ###################VAR Y CVAR CON ALISADO PARA TDC
 
-#VaR por posiciÛn
+#VaR por posici√≥n
 VaRCont_CA_fwtdc=matrix(0,1,m)#contrato
 VaRfr1_CA_fwtdc=matrix(0,1,m)#var factor riesgo 1
 VaRfr2_CA_fwtdc=matrix(0,1,m)#var factor riesgo 2
@@ -498,14 +498,14 @@ cbind(CVaRTotal_CA_fwtdc,CVaRTotalfr1_CA_fwtdc,CVaRTotalfr2_CA_fwtdc,CVaRTotalfr
 
 #CALCULO IPC 
 
-#C·lculo de matriz de pÈrdidas y ganancias FUTUROS IPC
+#C√°lculo de matriz de p√©rdidas y ganancias FUTUROS IPC
 m=ncol(plazos_fwd_ind)  #PASO CLAVE
 X_s_fwind=matrix(0,Ns,n_if[2]) #Factores de riesgo simulados con base en DeltaX_s x0*(1+Delta_Xs) #PASO CLAVE
 V_fwind=matrix(0,Ns,m)
 Vfr1_fwind=matrix(0,Ns,m)
 Vfr2_fwind=matrix(0,Ns,m)
 Vfr3_fwind=matrix(0,Ns,m)
-PG_fwind=matrix(0,Ns,m) #PËrdidas y ganancias
+PG_fwind=matrix(0,Ns,m) #P√®rdidas y ganancias
 PGfr1_fwind=matrix(0,Ns,m)
 PGfr2_fwind=matrix(0,Ns,m)
 PGfr3_fwind=matrix(0,Ns,m)
@@ -544,7 +544,7 @@ PG_fwind[1:5,]
 #PGT_fwind[1:5,]
 
 
-#VaR por posiciÛn
+#VaR por posici√≥n
 VaRCont_fwind=matrix(0,1,m)
 VaRfr1_fwind=matrix(0,1,m)
 VaRfr2_fwind=matrix(0,1,m)
@@ -642,31 +642,31 @@ cbind(CVaRTotal_fwind,CVaRTotalfr1_CA_fwind,CVaRTotalfr2_CA_fwind,CVaRTotalfr3_C
 
 ########33
 
-#MediciÛn de riesgo por factor de riesgo de todo el portafolios
+#Medici√≥n de riesgo por factor de riesgo de todo el portafolios
 #Acciones
 #1. Acciones 
 #2. Forward de IPC
-PGPort_ACC= PGfr3T_fwind #PÈrdidas y ganancias
+PGPort_ACC= PGfr3T_fwind #P√©rdidas y ganancias
 VaRPort_ACC=quantile(PGPort_ACC,1-alpha,Ns) #VaR
 CVaRPort_ACC= mean(PGPort_ACC[which(PGPort_ACC<VaRPort_ACC)]) #CVaR
 
 
-#Tasa de InterÈs
-#1. Dado que swaps y bondes son de tasa de interÈs usaremos PGT_bd y PGT_sw
+#Tasa de Inter√©s
+#1. Dado que swaps y bondes son de tasa de inter√©s usaremos PGT_bd y PGT_sw
 #2. Para futuros usaremos PGfr1T_fwtdc y PGfr2T_fwtdc
-PGPort_TI=PGfr1T_fwtdc+PGfr2T_fwtdc +PGfr2T_fwind #PÈrdidas y ganancias
+PGPort_TI=PGfr1T_fwtdc+PGfr2T_fwtdc +PGfr2T_fwind #P√©rdidas y ganancias
 VaRPort_TI=quantile(PGPort_TI,1-alpha,Ns) #VaR
 CVaRPort_TI= mean(PGPort_TI[which(PGPort_TI<VaRPort_TI)]) #CVaR
 
 #Tipo de cambio
-#1. Dado que swaps y bondes son de tasa de interÈs no usamos nada
-#2. Para futuros usamos sÛlo PGfr3T_fwtdc
-PGPort_TDC=PGfr3T_fwtdc  #PÈrdidas y ganancias
+#1. Dado que swaps y bondes son de tasa de inter√©s no usamos nada
+#2. Para futuros usamos s√≥lo PGfr3T_fwtdc
+PGPort_TDC=PGfr3T_fwtdc  #P√©rdidas y ganancias
 VaRPort_TDC=quantile(PGPort_TDC,1-alpha,Ns) #VaR
 CVaRPort_TDC= mean(PGPort_TDC[which(PGPort_TDC<VaRPort_TDC)]) #CVaR
 
 
-#MediciÛn de riesgo de todo el portafolios
+#Medici√≥n de riesgo de todo el portafolios
 #Sumar todos los PGT de todos los instrumentos
 
 PGT_Port=PGPort_ACC+PGPort_TI+PGPort_TDC
@@ -678,22 +678,22 @@ print(V0T_port)
 
 ######ahora para con alisado
 
-#Tasa de InterÈs
-#1. Dado que swaps y bondes son de tasa de interÈs usaremos PGT_bd y PGT_sw
+#Tasa de Inter√©s
+#1. Dado que swaps y bondes son de tasa de inter√©s usaremos PGT_bd y PGT_sw
 #2. Para futuros usaremos PGfr1T_fwtdc y PGfr2T_fwtdc
 
 VaRPort_CA_TI=wquantile(PGPort_TI,w=rep(1,length(PGPort_TI)),1-alpha) #VaR
 CVaRPort_CA_TI= wcvar(PGPort_TI,w=rep(1,length(PGPort_TI)),1-alpha) #CVaR
 
 #Tipo de cambio
-#1. Dado que swaps y bondes son de tasa de interÈs no usamos nada
-#2. Para futuros usamos sÛlo PGfr3T_fwtdc
+#1. Dado que swaps y bondes son de tasa de inter√©s no usamos nada
+#2. Para futuros usamos s√≥lo PGfr3T_fwtdc
 
 VaRPort_CA_TDC=wquantile(PGPort_TDC,w=rep(1,length(PGPort_TDC)),1-alpha)  #VaR
 CVaRPort_CA_TDC= wcvar(PGPort_TDC,w=rep(1,length(PGPort_TDC)),1-alpha) #CVaR
 
 
-#MediciÛn de riesgo de todo el portafolios
+#Medici√≥n de riesgo de todo el portafolios
 #Sumar todos los PGT de todos los instrumentos
 
 
